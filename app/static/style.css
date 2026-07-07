@@ -194,3 +194,105 @@ body {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* ------------------------------------------------------------ */
+/* 아래는 설정 패널과 헤더 버튼을 위해 추가된 스타일입니다.       */
+/* ------------------------------------------------------------ */
+
+/* 헤더 오른쪽의 아이콘 버튼들을 담는 영역입니다. */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 설정/초기화용 아이콘 버튼입니다. */
+.icon-button {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* 아이콘 버튼에 마우스를 올렸을 때 살짝 밝게 표시합니다. */
+.icon-button:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* 모델/생성 옵션을 설정하는 패널입니다. */
+.settings-panel {
+    padding: 12px 14px;
+    background: #eef3fb;
+    border-bottom: 1px solid #dbe4f3;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+/* 각 설정 항목(라벨 + 입력)을 세로로 배치합니다. */
+.setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+/* 설정 항목의 라벨 텍스트입니다. */
+.setting-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #33415c;
+}
+
+/* temperature와 top_p를 두 칸으로 나란히 배치하는 그리드입니다. */
+.setting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* 설정용 텍스트 입력과 숫자 입력의 공통 스타일입니다. */
+.setting-input,
+.setting-textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #ffffff;
+    color: #222;
+}
+
+/* 지시문 입력창은 세로 크기 조절만 허용합니다. */
+.setting-textarea {
+    resize: vertical;
+    min-height: 56px;
+}
+
+/* 설정 입력창 포커스 상태입니다. */
+.setting-input:focus,
+.setting-textarea:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
+/* 설정 패널 하단 안내 문구입니다. */
+.setting-hint {
+    margin: 4px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #64748b;
+}
+
+/* 메시지 하단에 표시되는 작은 메타 정보(사용 모델, 자동 조정 안내)입니다. */
+.message-meta {
+    max-width: 82%;
+    margin: -6px auto 12px 0;
+    padding: 0 4px;
+    font-size: 11px;
+    color: #64748b;
+}

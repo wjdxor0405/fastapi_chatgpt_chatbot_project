@@ -78,11 +78,27 @@ def health_check() -> dict:
 def chat(request: ChatRequest) -> ChatResponse:
     # try 블록 안에서 OpenAI API 호출 또는 데모 응답 생성을 처리합니다.
     try:
-        # 서비스 함수에 사용자 질문과 이전 대화 기록을 전달합니다.
-        reply, used_demo_mode = generate_chat_reply(request.message, request.history)
+        # 서비스 함수에 사용자 질문, 이전 대화 기록, 그리고 각종 설정값을 전달합니다.
+        # system_instruction / model / temperature / top_p / max_output_tokens는
+        # 값을 보내지 않으면(None) 서버 기본값이 사용됩니다.
+        reply, used_demo_mode, meta = generate_chat_reply(
+            request.message,
+            request.history,
+            system_instruction=request.system_instruction,
+            model=request.model,
+            temperature=request.temperature,
+            top_p=request.top_p,
+            max_output_tokens=request.max_output_tokens,
+        )
 
         # 정해진 응답 형식으로 답변을 반환합니다.
-        return ChatResponse(reply=reply, used_demo_mode=used_demo_mode)
+        # meta에는 실제 사용된 모델명과, 호환성 때문에 자동 조정된 파라미터 목록이 들어 있습니다.
+        return ChatResponse(
+            reply=reply,
+            used_demo_mode=used_demo_mode,
+            model=meta.get("model"),
+            adjusted_params=meta.get("adjusted_params", []),
+        )
 
     # 예상하지 못한 오류가 발생했을 때 500 상태 코드로 응답합니다.
     except Exception as exc:

@@ -11,6 +11,24 @@
 - API 키가 없을 때도 화면 테스트가 가능한 데모 모드 제공
 - Swagger 문서 자동 제공
 
+### 주요 구현 기능
+
+- **문맥 유지**: 이전 대화 기록(history)을 함께 전송하여 대화의 맥락을 이어서 답변합니다.
+- **System instruction 설정**: 챗봇의 역할과 답변 규칙을 요청마다 지정할 수 있습니다.
+  (미지정 시 `.env`의 `OPENAI_SYSTEM_INSTRUCTION` 또는 서버 기본값 사용)
+- **생성 옵션 설정**: `model`, `temperature`, `top_p`, `max_output_tokens`를 UI 설정 패널 또는
+  API 요청 본문에서 지정할 수 있습니다.
+- **gpt-5 / o 계열 자동 회피**: gpt-5·o 계열(추론) 모델은 지정 `temperature`/`top_p`를 지원하지
+  않고 `max_tokens` 대신 `max_completion_tokens`를 사용합니다. 서버가 모델명을 판별하여
+  해당 파라미터를 자동으로 제외/변환하며, 예기치 못한 파라미터 오류가 나더라도 문제 파라미터를
+  제거하고 자동 재시도합니다. 조정된 항목은 응답의 `adjusted_params`로 안내됩니다.
+
+### 설정 패널 사용법
+
+챗봇 창 상단의 ⚙(설정) 버튼을 누르면 System instruction / Model / Temperature / Top&nbsp;p /
+Max output tokens를 입력할 수 있습니다. 🗑 버튼으로 대화를 초기화할 수 있습니다.
+값을 비워 두면 서버 기본값이 사용됩니다.
+
 ## 2. 프로젝트 구조
 
 ```text
@@ -125,9 +143,18 @@ http://127.0.0.1:8000/api/health
 ```json
 {
   "message": "FastAPI가 무엇인지 설명해줘",
-  "history": []
+  "history": [],
+  "system_instruction": "너는 초보자에게 친절하게 설명하는 파이썬 강사다.",
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "top_p": 1.0,
+  "max_output_tokens": 1024
 }
 ```
+
+`system_instruction`, `model`, `temperature`, `top_p`, `max_output_tokens`는 모두 선택
+항목입니다. 생략하면 서버 기본값이 사용됩니다. gpt-5 · o 계열 모델을 지정하면 `temperature`와
+`top_p`는 자동으로 무시되며, 응답의 `adjusted_params` 목록으로 어떤 값이 조정됐는지 확인할 수 있습니다.
 
 5. `Execute` 클릭
 6. `reply` 값으로 챗봇 답변 확인
