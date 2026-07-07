@@ -1,7 +1,5 @@
 # FastAPI ChatGPT 챗봇 앱 프로젝트
 
-제공된 React 챗봇 예제를 참고하여 FastAPI 백엔드와 순수 HTML/CSS/JavaScript 화면으로 다시 작성한 ChatGPT 챗봇 프로젝트입니다.
-
 ## 1. 프로젝트 특징
 
 - FastAPI로 백엔드 API 구현
@@ -13,15 +11,15 @@
 
 ### 주요 구현 기능
 
-- **문맥 유지**: 이전 대화 기록(history)을 함께 전송하여 대화의 맥락을 이어서 답변합니다.
-- **System instruction 설정**: 챗봇의 역할과 답변 규칙을 요청마다 지정할 수 있습니다.
+- **문맥 유지**: 이전 대화 기록(history)을 함께 전송하여 대화의 맥락을 이어서 답변.
+- **System instruction 설정**: 챗봇의 역할과 답변 규칙을 요청마다 지정 가능.
   (미지정 시 `.env`의 `OPENAI_SYSTEM_INSTRUCTION` 또는 서버 기본값 사용)
 - **생성 옵션 설정**: `model`, `temperature`, `top_p`, `max_output_tokens`를 UI 설정 패널 또는
-  API 요청 본문에서 지정할 수 있습니다.
+  API 요청 본문에서 지정 가능.
 - **gpt-5 / o 계열 자동 회피**: gpt-5·o 계열(추론) 모델은 지정 `temperature`/`top_p`를 지원하지
-  않고 `max_tokens` 대신 `max_completion_tokens`를 사용합니다. 서버가 모델명을 판별하여
+  않고 `max_tokens` 대신 `max_completion_tokens`를 사용. 서버가 모델명을 판별하여
   해당 파라미터를 자동으로 제외/변환하며, 예기치 못한 파라미터 오류가 나더라도 문제 파라미터를
-  제거하고 자동 재시도합니다. 조정된 항목은 응답의 `adjusted_params`로 안내됩니다.
+  제거하고 자동 재시도. 조정된 항목은 응답의 `adjusted_params`로 안내.
 
 ### 설정 패널 사용법
 
@@ -158,20 +156,3 @@ http://127.0.0.1:8000/api/health
 
 5. `Execute` 클릭
 6. `reply` 값으로 챗봇 답변 확인
-
-## 6. 중요한 보안 수정 사항
-
-제공된 기존 React 코드에는 OpenAI API 키가 프론트엔드 JavaScript 안에 직접 작성되어 있었습니다. 프론트엔드 코드는 브라우저에서 누구나 확인할 수 있으므로 API 키를 넣으면 안 됩니다.
-
-이 프로젝트에서는 API 키를 `.env` 파일에 저장하고, FastAPI 서버에서만 읽도록 수정했습니다. `.env` 파일은 `.gitignore`에 포함되어 GitHub에 올라가지 않도록 설정했습니다.
-
-## 7. GitHub 업로드 명령
-
-```bash
-git init
-git add .
-git commit -m "Initial FastAPI ChatGPT chatbot project"
-git branch -M main
-git remote add origin 본인_깃허브_저장소_URL
-git push -u origin main
-```
